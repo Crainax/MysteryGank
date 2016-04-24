@@ -17,15 +17,15 @@ public class HttpResult<T> {
         return results;
     }
 
-    public void setResults(T results) {
-        this.results = results;
-    }
-
     public boolean isError() {
         return error;
     }
 
     public void setError(boolean error) {
         this.error = error;
+    }
+
+    public void setResults(T results) {
+        this.results = results;
     }
 }

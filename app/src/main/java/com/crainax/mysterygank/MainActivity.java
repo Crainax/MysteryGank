@@ -1,43 +1,66 @@
-
 package com.crainax.mysterygank;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements HomeView {
+public class MainActivity extends BaseActivity implements HomeView, View.OnClickListener {
 
-    private static final String TAG = "Crainax.MainActivity";
-    private MainPresenter presenter;
+    private IHomePresenter presenter;
+    private int currentPage = 1;
+    private ProgressBar progressBar;
+    private TextView textView;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        presenter = new MainPresenter(this);
+        findView();
+        presenter = new HomePresenter(this);
+    }
+
+    private void findView() {
+        progressBar = (ProgressBar) findViewById(R.id.pb);
+        textView = (TextView) findViewById(R.id.tv);
+        button = (Button) findViewById(R.id.bt_test);
+        if (button != null) {
+            button.setOnClickListener(this);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
     public void showProgress() {
-        Log.i(TAG, "showProgress: ");
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        Log.i(TAG, "hideProgress: ");
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void showGanksData(List<MeizhiEntity> datas) {
-        for (MeizhiEntity data : datas) {
-            Log.i(TAG, "showGanksData: " + datas.toString());
-        }
+        textView.setText(datas.toString());
     }
 
-    public void click(View view){
-        presenter.refreshGanks();
+    @Override
+    public void showErrorMessage() {
+        Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        presenter.getGanksData(currentPage++);
     }
 }

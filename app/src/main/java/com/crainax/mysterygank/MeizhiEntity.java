@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by Crainax on 2016/4/17.
  */
-public class MeizhiEntity implements Comparable {
+public class MeizhiEntity implements Comparable<MeizhiEntity> {
 
     /**
      * _id : 57136f0e67765974f885bf10
@@ -117,10 +117,7 @@ public class MeizhiEntity implements Comparable {
     }
 
     @Override
-    public int compareTo(final Object another) {
-        if (another instanceof MeizhiEntity)
-            return publishedAt.compareTo(((MeizhiEntity) another).publishedAt);
-
-        throw new ClassCastException("the CompareTo must be MeizhiEntity class.");
+    public int compareTo(MeizhiEntity another) {
+        return publishedAt.compareTo(another.publishedAt);
     }
 }
