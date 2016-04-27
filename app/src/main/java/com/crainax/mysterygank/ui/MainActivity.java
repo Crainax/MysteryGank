@@ -1,4 +1,4 @@
-package com.crainax.mysterygank;
+package com.crainax.mysterygank.ui;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,11 +7,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crainax.mysterygank.R;
+import com.crainax.mysterygank.bean.MeizhiEntity;
+import com.crainax.mysterygank.presenter.HomePresenter;
+import com.crainax.mysterygank.ui.base.BaseActivity;
+import com.crainax.mysterygank.view.HomeView;
+
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements HomeView, View.OnClickListener {
+public class MainActivity extends BaseActivity<HomeView, HomePresenter>
+        implements HomeView, View.OnClickListener {
 
-    private IHomePresenter presenter;
+    private HomePresenter presenter;
     private int currentPage = 1;
     private ProgressBar progressBar;
     private TextView textView;
@@ -22,7 +29,7 @@ public class MainActivity extends BaseActivity implements HomeView, View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findView();
-        presenter = new HomePresenter(this);
+        presenter = getPresenter();
     }
 
     private void findView() {
@@ -35,8 +42,8 @@ public class MainActivity extends BaseActivity implements HomeView, View.OnClick
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected HomePresenter createPresenter() {
+        return new HomePresenter();
     }
 
     @Override

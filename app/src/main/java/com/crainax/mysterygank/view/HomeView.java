@@ -1,4 +1,6 @@
-package com.crainax.mysterygank;
+package com.crainax.mysterygank.view;
+
+import com.crainax.mysterygank.bean.MeizhiEntity;
 
 import java.util.List;
 

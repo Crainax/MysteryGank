@@ -1,4 +1,9 @@
-package com.crainax.mysterygank;
+package com.crainax.mysterygank.api;
+
+import com.crainax.mysterygank.bean.AndroidEntity;
+import com.crainax.mysterygank.bean.MeizhiEntity;
+import com.crainax.mysterygank.bean.HttpResult;
+import com.crainax.mysterygank.bean.RelaxVideoEntity;
 
 import java.util.List;
 

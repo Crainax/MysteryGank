@@ -1,4 +1,4 @@
-package com.crainax.mysterygank;
+package com.crainax.mysterygank.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

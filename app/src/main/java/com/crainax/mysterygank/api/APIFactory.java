@@ -1,4 +1,4 @@
-package com.crainax.mysterygank;
+package com.crainax.mysterygank.api;
 
 /**
  * Project: MysteryGank <br/>

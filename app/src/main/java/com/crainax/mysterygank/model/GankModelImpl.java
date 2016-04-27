@@ -1,4 +1,11 @@
-package com.crainax.mysterygank;
+package com.crainax.mysterygank.model;
+
+import com.crainax.mysterygank.api.APIFactory;
+import com.crainax.mysterygank.api.GankAPI;
+import com.crainax.mysterygank.bean.HttpMethod;
+import com.crainax.mysterygank.bean.MeizhiEntity;
+import com.crainax.mysterygank.bean.RelaxVideoEntity;
+import com.crainax.mysterygank.bean.OnDataListener;
 
 import java.util.List;
 

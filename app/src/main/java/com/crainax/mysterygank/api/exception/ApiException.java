@@ -1,4 +1,4 @@
-package com.crainax.mysterygank;
+package com.crainax.mysterygank.api.exception;
 
 /**
  * Created by Crainax on 2016/4/18.

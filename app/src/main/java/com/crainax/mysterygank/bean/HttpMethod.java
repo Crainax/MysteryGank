@@ -1,4 +1,6 @@
-package com.crainax.mysterygank;
+package com.crainax.mysterygank.bean;
+
+import com.crainax.mysterygank.api.exception.ApiException;
 
 import rx.functions.Func1;
 

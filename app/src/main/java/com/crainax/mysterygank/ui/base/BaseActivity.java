@@ -1,9 +1,11 @@
-package com.crainax.mysterygank;
+package com.crainax.mysterygank.ui.base;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+
+import com.crainax.mysterygank.presenter.base.MVPBasePresenter;
+import com.crainax.mysterygank.view.Subscrible;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -18,7 +20,7 @@ import rx.subscriptions.CompositeSubscription;
  * @version 1.0 <br/>
  * @since 2016/4/22 <br/>
  */
-public class BaseActivity extends AppCompatActivity implements Subscrible {
+public abstract class BaseActivity<V, T extends MVPBasePresenter<V>> extends MVPBaseActivity<V, T> implements Subscrible {
 
     //组合在一起的Subscription,方便一键取订.
     private CompositeSubscription compositeSubscription;
