@@ -1,5 +1,7 @@
 package com.crainax.mysterygank.presenter;
 
+import android.support.annotation.NonNull;
+
 import com.crainax.mysterygank.bean.MeizhiEntity;
 import com.crainax.mysterygank.bean.OnDataListener;
 import com.crainax.mysterygank.model.GankModel;
@@ -12,12 +14,21 @@ import java.util.List;
 /**
  * Created by Crainax on 2016/4/17.
  */
-public class HomePresenter extends MVPBasePresenter<HomeView>  {
+public class HomePresenter extends MVPBasePresenter<HomeView> {
 
-    private GankModel gankmodel;
+    private final GankModel gankmodel;
 
     public HomePresenter() {
-        gankmodel = new GankModelImpl();
+        this(new GankModelImpl());
+    }
+
+    public HomePresenter(@NonNull GankModel gankmodel) {
+        this(null, gankmodel);
+    }
+
+    public HomePresenter(HomeView homeView, @NonNull GankModel gankmodel) {
+        super(homeView);
+        this.gankmodel = gankmodel;
     }
 
     public void getGanksData(final int page) {

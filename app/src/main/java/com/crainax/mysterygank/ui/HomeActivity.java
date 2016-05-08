@@ -2,8 +2,11 @@ package com.crainax.mysterygank.ui;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +18,7 @@ import com.crainax.mysterygank.view.HomeView;
 
 import java.util.List;
 
-public class MainActivity extends BaseActivity<HomeView, HomePresenter>
+public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
         implements HomeView, View.OnClickListener {
 
     private HomePresenter presenter;
@@ -23,6 +26,7 @@ public class MainActivity extends BaseActivity<HomeView, HomePresenter>
     private ProgressBar progressBar;
     private TextView textView;
     private Button button;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +38,29 @@ public class MainActivity extends BaseActivity<HomeView, HomePresenter>
 
     private void findView() {
         progressBar = (ProgressBar) findViewById(R.id.pb);
-        textView = (TextView) findViewById(R.id.tv);
+        textView = (TextView) findViewById(R.id.et);
         button = (Button) findViewById(R.id.bt_test);
         if (button != null) {
             button.setOnClickListener(this);
         }
+        spinner = (Spinner) findViewById(R.id.spinner);
+        initSpinner();
+    }
+
+    private void initSpinner() {
+        final String[] datas = {"haha", "xixi", "gugu;", "meme"};
+        spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, datas));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                textView.setText(datas[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -63,7 +85,7 @@ public class MainActivity extends BaseActivity<HomeView, HomePresenter>
 
     @Override
     public void showErrorMessage() {
-        Toast.makeText(MainActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+        Toast.makeText(HomeActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
     }
 
     @Override

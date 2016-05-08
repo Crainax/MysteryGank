@@ -16,6 +16,10 @@ public class MVPBasePresenter<T> {
 
     private WeakReference<T> viewRef;
 
+    public MVPBasePresenter(T view) {
+        viewRef = new WeakReference<>(view);
+    }
+
     public void attachView(T view) {
         viewRef = new WeakReference<>(view);
     }
@@ -24,7 +28,7 @@ public class MVPBasePresenter<T> {
         return viewRef != null && viewRef.get() != null;
     }
 
-    public T getView() {
+    protected T getView() {
         return viewRef.get();
     }
 

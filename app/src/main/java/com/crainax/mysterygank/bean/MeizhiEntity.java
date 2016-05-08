@@ -29,6 +29,14 @@ public class MeizhiEntity implements Comparable<MeizhiEntity> {
     private boolean used;
     private String who;
 
+    public MeizhiEntity() {
+
+    }
+
+    public MeizhiEntity(String id) {
+        this._id = id;
+    }
+
     public String get_id() {
         return _id;
     }
