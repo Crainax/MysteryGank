@@ -1,66 +1,82 @@
 package com.crainax.mysterygank.ui;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.crainax.mysterygank.R;
 import com.crainax.mysterygank.bean.MeizhiEntity;
 import com.crainax.mysterygank.presenter.HomePresenter;
+import com.crainax.mysterygank.ui.adapter.HomeAdapter;
 import com.crainax.mysterygank.ui.base.BaseActivity;
 import com.crainax.mysterygank.view.HomeView;
 
 import java.util.List;
 
-public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
-        implements HomeView, View.OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    private HomePresenter presenter;
+public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
+        implements HomeView, SwipeRefreshLayout.OnRefreshListener {
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.rv_home)
+    RecyclerView mRvHome;
+    @BindView(R.id.srl_home)
+    SwipeRefreshLayout mSrlHome;
+
+    private HomePresenter mPresenter;
     private int currentPage = 1;
-    private ProgressBar progressBar;
-    private TextView textView;
-    private Button button;
-    private Spinner spinner;
+    private HomeAdapter mHomeAdapter;
+    private LinearLayoutManager mRvLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findView();
-        presenter = getPresenter();
+        ButterKnife.bind(this);
+        initRefreshLayout();
+        mPresenter = getPresenter();
+
+        //获取数据
+        mPresenter.getGanksData(1);
     }
 
-    private void findView() {
-        progressBar = (ProgressBar) findViewById(R.id.pb);
-        textView = (TextView) findViewById(R.id.et);
-        button = (Button) findViewById(R.id.bt_test);
-        if (button != null) {
-            button.setOnClickListener(this);
-        }
-        spinner = (Spinner) findViewById(R.id.spinner);
-        initSpinner();
-    }
+    private void initRefreshLayout() {
 
-    private void initSpinner() {
-        final String[] datas = {"haha", "xixi", "gugu;", "meme"};
-        spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, datas));
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSrlHome.setOnRefreshListener(this);
+
+        mHomeAdapter = new HomeAdapter();
+        mRvHome.setAdapter(mHomeAdapter);
+        mRvHome.setHasFixedSize(true);
+        mRvLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mRvHome.setLayoutManager(mRvLayoutManager);
+        mRvHome.setItemAnimator(new DefaultItemAnimator());
+
+        mRvHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                textView.setText(datas[position]);
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_IDLE:
+                        if (mRvLayoutManager.findLastVisibleItemPosition() == mHomeAdapter.getItemCount()) {
+
+                        }
+                        break;
+                }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
             }
         });
+
     }
 
     @Override
@@ -70,17 +86,17 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
 
     @Override
     public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
+        mSrlHome.setRefreshing(true);
     }
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(View.INVISIBLE);
+        mSrlHome.setRefreshing(false);
     }
 
     @Override
     public void showGanksData(List<MeizhiEntity> datas) {
-        textView.setText(datas.toString());
+        mHomeAdapter.setDatasAndNotify(datas);
     }
 
     @Override
@@ -89,7 +105,7 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
     }
 
     @Override
-    public void onClick(View v) {
-        presenter.getGanksData(currentPage++);
+    public void onRefresh() {
+        mPresenter.getGanksData(1);
     }
 }

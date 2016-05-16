@@ -24,6 +24,9 @@ import rx.schedulers.Schedulers;
  */
 public class GankModelImpl implements GankModel {
 
+    /**
+     * 用于标志是否为测试的类
+     */
     private final boolean isTesting;
 
     public GankModelImpl(boolean isTesting) {
