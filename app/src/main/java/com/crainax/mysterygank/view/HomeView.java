@@ -25,6 +25,12 @@ public interface HomeView extends Subscrible {
 
     /**
      * 显示获取网络异常时的信息
+     * @param e
      */
-    void showErrorMessage();
+    void showErrorMessage(Throwable e);
+
+    /**
+     * 添加主页妹子等图片等信息
+     */
+    void addGankDatas(List<MeizhiEntity> datas);
 }

@@ -21,8 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -38,6 +41,7 @@ import static org.mockito.Mockito.verify;
 public class HomePresenterTest {
 
     private static final int PAGE = 1;
+    private static final int PAGE_OTHER = 2;
 
     @Mock
     private HomeActivity mHomeActivity;
@@ -53,6 +57,9 @@ public class HomePresenterTest {
     private HomePresenter homePresenter;
 
     private static List<MeizhiEntity> MEIZHIS;
+
+    @Captor
+    private ArgumentCaptor<List<MeizhiEntity>> mListCaptor;
 
     @Before
     public void initTest() {
@@ -103,7 +110,52 @@ public class HomePresenterTest {
 
         //下面两个逻辑不一定谁先发生,所以只需要验证其中一个的与上面的顺序一致即可.
         inOrder.verify(mHomeActivity).hideProgress();
-        verify(mHomeActivity).showErrorMessage();
+        verify(mHomeActivity).showErrorMessage(any(Throwable.class));
+    }
+
+    //测试下拉刷新的逻辑
+    @Test
+    public void testGetHomeMeizhiDatas_otherPage() {
+
+        InOrder inOrder = inOrder(mHomeActivity, mGankModel);
+
+//        homePresenter.getGanksData(PAGE);
+        homePresenter.updateGanksData(PAGE_OTHER);
+
+        verify(mHomeActivity, never()).showProgress();
+        inOrder.verify(mGankModel).fetchGanks(mCallbackCaptor.capture(), eq(PAGE_OTHER));
+
+        mCallbackCaptor.getValue().onDataComplete(MEIZHIS);
+        inOrder.verify(mHomeActivity).addGankDatas(mListCaptor.capture());
+
+        assertEquals(mListCaptor.getValue().size(), GankRetrofit.NUMBER_PER_PAGE);
+    }
+
+    //测试下拉刷新的逻辑后的数量是否为两倍
+    @Test
+    public void testGetHomeMeizhiDatasNumber_otherPage() {
+
+        //获取第一页的数据
+        homePresenter.getGanksData(PAGE);
+        verify(mGankModel, times(1)).fetchGanks(mCallbackCaptor.capture(), eq(PAGE));
+        mCallbackCaptor.getValue().onDataComplete(MEIZHIS);
+
+        verify(mHomeActivity).showGanksData(mListCaptor.capture());
+
+        //模拟下拉后获取数据
+        homePresenter.updateGanksData(PAGE_OTHER);
+        verify(mGankModel, times(1)).fetchGanks(mCallbackCaptor.capture(), eq(PAGE_OTHER));
+        mCallbackCaptor.getValue().onDataComplete(MEIZHIS);
+
+        verify(mHomeActivity).addGankDatas(mListCaptor.capture());
+
+        //获取所有捕获到的数据
+        int size = 0;
+        for (List<MeizhiEntity> listCaptor : mListCaptor.getAllValues()) {
+            size += listCaptor.size();
+        }
+        //检验
+        assertEquals(size, GankRetrofit.NUMBER_PER_PAGE * 2);
     }
 
 }

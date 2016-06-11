@@ -8,9 +8,7 @@
     android:clipChildren="true"
     android:clipToPadding="true"
     app:backSideColor="@android:color/transparent"
-
     >
-
 
 
     <include layout="@layout/layout_unfold_gank" />

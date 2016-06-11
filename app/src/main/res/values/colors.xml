@@ -4,4 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="toolbar">#22ff00</color>
+    <color name="bgHomeItemFold">#ccccff</color>
+    <color name="borderHomeMeizhiIV">#ffffff</color>
+    <color name="bgContentTop">#594691</color>
+    <color name="mainTextColor">#343d43</color>
+    <color name="contentBadgeTitle">#a9a9a9</color>
+    <color name="GrayDivider">#999999</color>
 </resources>

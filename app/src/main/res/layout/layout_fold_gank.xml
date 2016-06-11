@@ -1,30 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:showIn="@layout/item_home_piece">
+    android:background="@color/bgHomeItemFold"
+    android:padding="8dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/iv_item_home_fold_meizhi"
+        android:layout_width="@dimen/homeMeizhiFold"
+        android:layout_height="@dimen/homeMeizhiFold"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/women_placeholder"
+        app:civ_border_color="@color/borderHomeMeizhiIV"
+        app:civ_border_width="@dimen/borderHomeMeizhiIVWidth" />
+
+    <ImageButton
+        android:id="@+id/bt_item_home_toUnfold"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentEnd="true"
+        android:background="?attr/listChoiceBackgroundIndicator"
+        android:src="@drawable/ic_unfold_more_black_24dp" />
 
-        <ImageView
-            android:id="@+id/iv_title_meizhi"
-            android:src="@android:drawable/ic_delete"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_toEndOf="@id/iv_item_home_fold_meizhi"
+        android:layout_alignTop="@id/iv_item_home_fold_meizhi"
+        android:layout_marginStart="20dp"
+        android:layout_alignBottom="@id/iv_item_home_fold_meizhi"
+        android:layout_toStartOf="@id/bt_item_home_toUnfold"
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tv_title_title"
+            android:id="@+id/tv_item_home_fold_date"
+            style="@style/Title.Item.Home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date_mock" />
+
+        <TextView
+            android:id="@+id/tv_item_home_fold_title"
+            style="@style/Content.Item.Home"
+            android:lines="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_item_home_fold_date"
+            android:text="@string/title_mock" />
+    </RelativeLayout>
+
+</RelativeLayout>
+
+    <!--
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:showIn="@layout/item_home_piece">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:text="@string/indicator"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/iv_title_meizhi"
+                android:src="@android:drawable/ic_delete"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal" />
 
-</FrameLayout>
+            <TextView
+                android:id="@+id/tv_title_title"
+                android:layout_width="match_parent"
+                android:text="@string/indicator"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </FrameLayout>-->

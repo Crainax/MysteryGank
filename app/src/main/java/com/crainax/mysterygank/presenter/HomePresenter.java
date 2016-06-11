@@ -32,6 +32,7 @@ public class HomePresenter extends MVPBasePresenter<HomeView> {
     }
 
     public void getGanksData(final int page) {
+
         getView().showProgress();
         //保存到相应的订阅体中.
         getView().saveToCompositeSubscription(gankmodel.fetchGanks(new OnDataListener<List<MeizhiEntity>>() {
@@ -44,10 +45,24 @@ public class HomePresenter extends MVPBasePresenter<HomeView> {
             @Override
             public void onDataError(final Throwable e) {
                 getView().hideProgress();
-                getView().showErrorMessage();
+                getView().showErrorMessage(e);
             }
         }, page));
 
+    }
+
+    public void updateGanksData(int page) {
+        getView().saveToCompositeSubscription(gankmodel.fetchGanks(new OnDataListener<List<MeizhiEntity>>() {
+            @Override
+            public void onDataComplete(List<MeizhiEntity> meizhiEntities) {
+                getView().addGankDatas(meizhiEntities);
+            }
+
+            @Override
+            public void onDataError(Throwable e) {
+                getView().showErrorMessage(e);
+            }
+        }, page));
     }
 
 

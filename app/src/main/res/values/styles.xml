@@ -8,4 +8,38 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Title.Item.Home">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="Title.Item"></style>
+
+    <style name="Title.Bold">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Title">
+        <item name="android:textSize">16sp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Content">
+        <item name="android:textSize">13sp</item>
+        <item name="android:lines">3</item>
+    </style>
+
+    <style name="Content.Item"></style>
+
+    <style name="Content.Item.Home">
+        <item name="android:textColor">@color/colorContent</item>
+    </style>
+
+    <style name="Badge">
+        <item name="android:textColor">@color/contentBadgeTitle</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <color name="colorContent">#777777</color>
 </resources>

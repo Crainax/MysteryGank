@@ -12,8 +12,10 @@ import com.crainax.mysterygank.R;
 import com.crainax.mysterygank.bean.MeizhiEntity;
 import com.crainax.mysterygank.presenter.HomePresenter;
 import com.crainax.mysterygank.ui.adapter.HomeAdapter;
+import com.crainax.mysterygank.ui.adapter.SpaceItemDecoration;
 import com.crainax.mysterygank.ui.base.BaseActivity;
 import com.crainax.mysterygank.view.HomeView;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -58,14 +60,18 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
         mRvHome.setLayoutManager(mRvLayoutManager);
         mRvHome.setItemAnimator(new DefaultItemAnimator());
 
+        int spacingInPixel = getResources().getDimensionPixelSize(R.dimen.item_distance);
+        mRvHome.addItemDecoration(new SpaceItemDecoration(spacingInPixel));
+
         mRvHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 switch (newState) {
                     case RecyclerView.SCROLL_STATE_IDLE:
-                        if (mRvLayoutManager.findLastVisibleItemPosition() == mHomeAdapter.getItemCount()) {
-
+                        Logger.i("onScrollStateChanged IDLE:" + mRvLayoutManager.findLastVisibleItemPosition());
+                        if (mRvLayoutManager.findLastVisibleItemPosition() == mHomeAdapter.getItemCount() - 1) {
+                            mPresenter.updateGanksData(++currentPage);
                         }
                         break;
                 }
@@ -100,8 +106,14 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
     }
 
     @Override
-    public void showErrorMessage() {
+    public void showErrorMessage(Throwable e) {
         Toast.makeText(HomeActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+        Logger.w("showErrorMessage: " + e);
+    }
+
+    @Override
+    public void addGankDatas(List<MeizhiEntity> datas) {
+        mHomeAdapter.addDatasAndNotify(datas);
     }
 
     @Override

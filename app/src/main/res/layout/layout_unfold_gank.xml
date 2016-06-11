@@ -1,31 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:visibility="gone"
-    tools:showIn="@layout/item_home_piece">
+    android:background="@color/bgHomeItemFold"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/iv_content_meizhi"
-            android:layout_width="200dp"
-            android:src="@android:drawable/ic_delete"
-            android:layout_height="200dp"
-            android:layout_gravity="center_horizontal" />
+        android:layout_height="match_parent"
+        android:background="@color/bgContentTop"
+        android:paddingBottom="7dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="7dp">
 
         <TextView
-            android:id="@+id/tv_content_title"
-            android:layout_width="match_parent"
-            android:text="@string/indicator"
-            android:layout_height="wrap_content" />
+            android:id="@+id/tv_item_home_unfold_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/date_mock"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
+        <ImageButton
+            android:id="@+id/bt_item_home_toUnfold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/listChoiceBackgroundIndicator"
+            android:src="@drawable/ic_unfold_less_black_24dp" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_item_home_unfold_meizhi"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/homeMeizhiUnfold"
+        android:layout_alignParentStart="true"
+        android:scaleType="center"
+        android:src="@drawable/women_placeholder" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_mock_fixed" />
+
+        <TextView
+            android:id="@+id/tv_item_home_unfold_title"
+            style="@style/Title.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_mock" />
     </LinearLayout>
 
-</FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/GrayDivider" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_mock_fixed_editor" />
+
+        <TextView
+            android:id="@+id/tv_item_home_unfold_editor"
+            style="@style/Title.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_mock_editor" />
+    </LinearLayout>
+
+</LinearLayout>

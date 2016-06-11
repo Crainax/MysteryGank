@@ -2,4 +2,10 @@
     <string name="app_name">MysteryGank</string>
     <string name="testLargeText">saldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksksaldfjalk;sfd;slkadlks;fdlskafjlk;afjklsaddfjksk</string>
     <string name="indicator">String indicator</string>
+    <string name="bottom_swipe_fresh_hint">下拉刷新中...</string>
+    <string name="date_mock">2016/06/10</string>
+    <string name="title_mock">"昨天的魔兽首映，去看了吗！</string>
+    <string name="title_mock_fixed">标题</string>
+    <string name="title_mock_fixed_editor">编辑</string>
+    <string name="title_mock_editor">代码家</string>
 </resources>
