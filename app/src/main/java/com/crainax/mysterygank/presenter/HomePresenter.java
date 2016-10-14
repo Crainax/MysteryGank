@@ -52,15 +52,18 @@ public class HomePresenter extends MVPBasePresenter<HomeView> {
     }
 
     public void updateGanksData(int page) {
+        getView().showProgress();
         getView().saveToCompositeSubscription(gankmodel.fetchGanks(new OnDataListener<List<MeizhiEntity>>() {
             @Override
             public void onDataComplete(List<MeizhiEntity> meizhiEntities) {
+                getView().hideProgress();
                 getView().addGankDatas(meizhiEntities);
             }
 
             @Override
             public void onDataError(Throwable e) {
                 getView().showErrorMessage(e);
+                getView().hideProgress();
             }
         }, page));
     }
