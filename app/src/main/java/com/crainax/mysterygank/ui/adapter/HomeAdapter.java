@@ -32,7 +32,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_DATAS = 0;
     private static final int VIEW_TYPE_FOOTER = 1;
 
-
     private final HashSet<Integer> mUnfoldedIndex = new HashSet<>();
 
     private List<MeizhiEntity> datas;
@@ -52,7 +51,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.datas.addAll(datas);
         notifyDataSetChanged();
     }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -167,7 +165,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mTvUnfoldDate = (TextView) mFcHome.findViewById(R.id.tv_item_home_unfold_date);
             this.context = itemView.getContext();
         }
-
 
     }
 
