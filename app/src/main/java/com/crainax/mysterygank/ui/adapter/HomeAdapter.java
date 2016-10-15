@@ -12,9 +12,7 @@ import com.bumptech.glide.Glide;
 import com.crainax.mysterygank.R;
 import com.crainax.mysterygank.bean.MeizhiEntity;
 import com.crainax.mysterygank.util.DateUtils;
-import com.ramotion.foldingcell.FoldingCell;
 
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -29,16 +27,29 @@ import java.util.List;
  */
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int VIEW_TYPE_DATAS = 0;
-    private static final int VIEW_TYPE_FOOTER = 1;
+    private OnHomeItemClickListener onHomeItemClickListener;
 
-    private final HashSet<Integer> mUnfoldedIndex = new HashSet<>();
+    public interface OnHomeItemClickListener {
+        void onHomeItemClick(View view, MeizhiEntity meizhiEntity);
+
+        void onAvatarClick(View view, String imageUrl);
+    }
+
+    /**
+     * OnHomeItemClickListener的Setter
+     */
+    public void setOnHomeItemClickListener(OnHomeItemClickListener l) {
+        this.onHomeItemClickListener = l;
+    }
+
+    private static final int VIEW_TYPE_DATAS = 0;
+
+    private static final int VIEW_TYPE_FOOTER = 1;
 
     private List<MeizhiEntity> datas;
 
     public void setDatas(List<MeizhiEntity> datas) {
         this.datas = datas;
-        mUnfoldedIndex.clear();
     }
 
     public void setDatasAndNotify(List<MeizhiEntity> datas) {
@@ -47,7 +58,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void addDatasAndNotify(List<MeizhiEntity> datas) {
-
         this.datas.addAll(datas);
         notifyDataSetChanged();
     }
@@ -66,13 +76,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
 
+        Context context = parent.getContext();
         View view = null;
         switch (viewType) {
             case VIEW_TYPE_DATAS:
                 view = LayoutInflater.from(context).inflate(R.layout.item_home_piece, parent, false);
-                return new HomeAdapterHolder(view);
+                return new ViewHolder(view);
             case VIEW_TYPE_FOOTER:
                 view = LayoutInflater.from(context).inflate(R.layout.item_home_footer, parent, false);
                 return new FooterViewHolder(view);
@@ -85,91 +95,73 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
 
-        if (holder instanceof HomeAdapterHolder) {
+        if (holder instanceof ViewHolder) {
 
-            final HomeAdapterHolder homeAdapterHolder = (HomeAdapterHolder) holder;
-
-            //判断缓存中是否是折叠状态去设置相应的状态
-            if (isUnfold(position))
-                homeAdapterHolder.mFcHome.unfold(true);
-            else
-                homeAdapterHolder.mFcHome.fold(true);
+            final ViewHolder homeAdapterHolder = (ViewHolder) holder;
 
             //设置相应的数据(展开后的)
-            homeAdapterHolder.mTvUnfoldTitle.setText(datas.get(position).getDesc());
-            homeAdapterHolder.mTvUnfoldDate.setText(DateUtils.formatDate(datas.get(position).getPublishedAt(), DateUtils.FORMAT_YMD));
+            homeAdapterHolder.mTvTitle.setText(datas.get(position).getDesc());
+            homeAdapterHolder.mTvDate.setText(
+                    DateUtils.formatDate(datas.get(position).getPublishedAt(), DateUtils.FORMAT_YMD));
             Glide.with(homeAdapterHolder.context)
                     .load(datas.get(position).getUrl())
                     .placeholder(R.drawable.women_placeholder)
-                    .into(homeAdapterHolder.mIvUnfoldMeizhi);
+                    .into(homeAdapterHolder.mIvAvatar);
+            attachListener((HomeAdapter.ViewHolder) holder, datas.get(position));
 
-            //设置相应的数据(折叠时的)
-            homeAdapterHolder.mTvFoldTitle.setText(datas.get(position).getDesc());
-            homeAdapterHolder.mTvFoldDate.setText(DateUtils.formatDate(datas.get(position).getPublishedAt(), DateUtils.FORMAT_YMD));
-
-
-            Glide.with(homeAdapterHolder.context).load(datas.get(position).getUrl()).into(homeAdapterHolder.mIvFoldMeizhi);
-
-            homeAdapterHolder.mFcHome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    homeAdapterHolder.mFcHome.toggle(false);
-                    registerToggle(position);
-                }
-            });
         } else if (holder instanceof FooterViewHolder) {
             //Do Nothing Temporary.
         }
     }
 
-    private boolean isUnfold(int position) {
-        return mUnfoldedIndex.contains(position);
+    private void attachListener(ViewHolder holder, final MeizhiEntity meizhiEntity) {
+        holder.mClickAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onHomeItemClickListener != null) {
+                    onHomeItemClickListener.onAvatarClick(v, meizhiEntity.getUrl());
+                }
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onHomeItemClickListener != null){
+                    onHomeItemClickListener.onHomeItemClick(v, meizhiEntity);
+                }
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
         return isDatasNull() ? 0 : datas.size() + 1;
     }
 
-    public void registerToggle(int position) {
-        if (mUnfoldedIndex.contains(position))
-            mUnfoldedIndex.remove(position);
-        else
-            mUnfoldedIndex.add(position);
-    }
-
     private boolean isDatasNull() {
         return datas == null;
     }
 
-
-    private class HomeAdapterHolder extends RecyclerView.ViewHolder {
+    private class ViewHolder extends RecyclerView.ViewHolder {
 
         private final Context context;
-        private final TextView mTvUnfoldTitle;
-        private final ImageView mIvUnfoldMeizhi;
-        private final FoldingCell mFcHome;
-        private final TextView mTvFoldTitle;
-        private final ImageView mIvFoldMeizhi;
-        private final TextView mTvFoldDate;
-        private final TextView mTvUnfoldDate;
+        private final TextView mTvTitle;
+        private final ImageView mIvAvatar;
+        private final TextView mTvDate;
+        private final View mClickAvatar;
 
-        public HomeAdapterHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
-            mFcHome = ((FoldingCell) itemView.findViewById(R.id.fc_home));
-            mTvUnfoldTitle = (TextView) (mFcHome.findViewById(R.id.tv_item_home_unfold_title));
-            mIvUnfoldMeizhi = (ImageView) mFcHome.findViewById(R.id.iv_item_home_unfold_meizhi);
-            mTvFoldTitle = (TextView) mFcHome.findViewById(R.id.tv_item_home_fold_title);
-            mIvFoldMeizhi = (ImageView) mFcHome.findViewById(R.id.iv_item_home_fold_meizhi);
-            mTvFoldDate = (TextView) mFcHome.findViewById(R.id.tv_item_home_fold_date);
-            mTvUnfoldDate = (TextView) mFcHome.findViewById(R.id.tv_item_home_unfold_date);
+            mClickAvatar = itemView.findViewById(R.id.click_bg_avatar);
+            mTvTitle = (TextView) (itemView.findViewById(R.id.tv_item_home_title));
+            mIvAvatar = (ImageView) itemView.findViewById(R.id.iv_home_item_avatar);
+            mTvDate = (TextView) itemView.findViewById(R.id.tv_item_home_date);
             this.context = itemView.getContext();
         }
-
     }
 
     private class FooterViewHolder extends RecyclerView.ViewHolder {
-
         public FooterViewHolder(View itemView) {
             super(itemView);
         }

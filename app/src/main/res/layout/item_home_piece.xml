@@ -1,16 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.ramotion.foldingcell.FoldingCell xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fc_home"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clipChildren="true"
-    android:clipToPadding="true"
-    app:backSideColor="@android:color/transparent">
+    android:background="@color/bgHomeItemFold">
 
-    <include layout="@layout/layout_unfold_gank" />
+    <RelativeLayout
+        android:id="@+id/click_bg_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:background="@color/bgHomeItemLeft"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
 
-    <include layout="@layout/layout_fold_gank" />
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/iv_home_item_avatar"
+            android:layout_width="@dimen/homeMeizhiFold"
+            android:layout_height="@dimen/homeMeizhiFold"
+            android:src="@drawable/women_placeholder"
+            app:civ_border_color="@color/borderHomeMeizhiIV"
+            app:civ_border_width="@dimen/borderHomeMeizhiIVWidth" />
+    </RelativeLayout>
 
-</com.ramotion.foldingcell.FoldingCell>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/click_bg_avatar"
+        android:layout_alignParentEnd="true"
+        android:padding="8dp"
+        android:layout_alignTop="@id/click_bg_avatar"
+        android:layout_toEndOf="@id/click_bg_avatar"
+        android:layout_toStartOf="@id/click_bg_avatar">
+
+        <TextView
+            android:id="@+id/tv_item_home_date"
+            style="@style/Title.Item.Home"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:text="@string/date_mock"
+            android:layout_alignParentTop="true" />
+
+        <View
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/GrayDivider" />
+
+        <TextView
+            android:id="@+id/tv_item_home_title"
+            style="@style/Content.Item.Home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:text="@string/title_mock"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+</RelativeLayout>

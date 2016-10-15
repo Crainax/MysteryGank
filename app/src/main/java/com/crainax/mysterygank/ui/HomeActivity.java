@@ -6,7 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.crainax.mysterygank.R;
@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
-        implements HomeView, SwipeRefreshLayout.OnRefreshListener {
+        implements HomeView, SwipeRefreshLayout.OnRefreshListener, HomeAdapter.OnHomeItemClickListener {
 
     private static final String TAG = "Crainax";
     /**
@@ -67,6 +67,7 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
         mRvLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRvHome.setLayoutManager(mRvLayoutManager);
         mRvHome.setItemAnimator(new DefaultItemAnimator());
+        mHomeAdapter.setOnHomeItemClickListener(this);
 
         int spacingInPixel = getResources().getDimensionPixelSize(R.dimen.item_distance);
         mRvHome.addItemDecoration(new SpaceItemDecoration(spacingInPixel));
@@ -77,11 +78,7 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (mRvLayoutManager.findLastVisibleItemPosition() >= mHomeAdapter.getItemCount() - NUMBER_PRELOAD && mHasLoad) {
-//                    Logger.i("mRvLayoutManager.findLastVisibleItemPosition()" + mRvLayoutManager.findLastVisibleItemPosition());
-//                    Logger.i("mItemCount ::: " + mHomeAdapter.getItemCount());
                     mPresenter.updateGanksData(++currentPage);
-                    System.out.println("CurrentPage :" + currentPage);
-                    Log.i(TAG, "CurrentPage:" + currentPage);
                 }
             }
         });
@@ -124,5 +121,15 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
     @Override
     public void onRefresh() {
         mPresenter.getGanksData(1);
+    }
+
+    @Override
+    public void onHomeItemClick(View view, MeizhiEntity meizhiEntity) {
+
+    }
+
+    @Override
+    public void onAvatarClick(View view, String imageUrl) {
+        PictureActivity.start(this, imageUrl, view);
     }
 }
