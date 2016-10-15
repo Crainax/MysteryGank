@@ -45,7 +45,7 @@ public class GankModelImpl implements GankModel {
 
         GankAPI gankAPI = APIFactory.getGankAPI();
 
-        //获取休息视频与妹子的接口,并剥离其"error"外壳.
+        //获取标题与妹子的接口,并剥离其"error"外壳.
         Observable<List<RelaxVideoEntity>> oRelaxVideo = gankAPI.getRelaxVedio(page + "")
                 .map(new HttpMethod<List<RelaxVideoEntity>>());
         Observable<List<MeizhiEntity>> oMeizhi = gankAPI.getMeizhi(page + "")
@@ -60,7 +60,7 @@ public class GankModelImpl implements GankModel {
 
                     for (RelaxVideoEntity relaxVideo : relaxVideos) {
                         if (meiZhi.getPublishedAt().equals(relaxVideo.getPublishedAt())) {
-                            meiZhi.setDesc(meiZhi.getDesc() + " : " + relaxVideo.getDesc());
+                            meiZhi.setDesc(relaxVideo.getDesc());
                         }
                     }
 

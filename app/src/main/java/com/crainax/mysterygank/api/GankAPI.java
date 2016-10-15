@@ -1,6 +1,7 @@
 package com.crainax.mysterygank.api;
 
 import com.crainax.mysterygank.bean.AndroidEntity;
+import com.crainax.mysterygank.bean.DailyEntity;
 import com.crainax.mysterygank.bean.MeizhiEntity;
 import com.crainax.mysterygank.bean.HttpResult;
 import com.crainax.mysterygank.bean.RelaxVideoEntity;
@@ -27,5 +28,8 @@ public interface GankAPI {
 
     @GET("/api/data/Android/" + GankRetrofit.NUMBER_PER_PAGE + "/{page}")
     Observable<HttpResult<List<AndroidEntity>>> getAndroid(@Path("page") String page);
+
+    @GET("/api/history/content/" + GankRetrofit.NUMBER_PER_PAGE + "/{page}")
+    Observable<HttpResult<List<DailyEntity>>> getDailyEntity(@Path("page") String page);
 
 }
