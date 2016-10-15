@@ -1,6 +1,6 @@
 package com.crainax.mysterygank.view;
 
-import com.crainax.mysterygank.bean.MeizhiEntity;
+import com.crainax.mysterygank.bean.DailyEntity;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface HomeView extends Subscrible {
     /**
      * 显示妹子图片等信息
      */
-    void showGanksData(List<MeizhiEntity> datas);
+    void showDailyDatas(List<DailyEntity> datas);
 
     /**
      * 显示获取网络异常时的信息
@@ -32,5 +32,15 @@ public interface HomeView extends Subscrible {
     /**
      * 添加主页妹子等图片等信息
      */
-    void addGankDatas(List<MeizhiEntity> datas);
+    void addDailyDatas(List<DailyEntity> datas);
+
+    /**
+     * 显示后台进度条
+     */
+    void showBackgroundProgress();
+
+    /**
+     * 隐藏后台进度条
+     */
+    void hideBackGroundProgress();
 }

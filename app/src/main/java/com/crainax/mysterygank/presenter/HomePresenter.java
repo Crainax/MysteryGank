@@ -2,7 +2,7 @@ package com.crainax.mysterygank.presenter;
 
 import android.support.annotation.NonNull;
 
-import com.crainax.mysterygank.bean.MeizhiEntity;
+import com.crainax.mysterygank.bean.DailyEntity;
 import com.crainax.mysterygank.bean.OnDataListener;
 import com.crainax.mysterygank.model.GankModel;
 import com.crainax.mysterygank.model.GankModelImpl;
@@ -35,10 +35,10 @@ public class HomePresenter extends MVPBasePresenter<HomeView> {
 
         getView().showProgress();
         //保存到相应的订阅体中.
-        getView().saveToCompositeSubscription(gankmodel.fetchGanks(new OnDataListener<List<MeizhiEntity>>() {
+        getView().saveToCompositeSubscription(gankmodel.fetchDaily(new OnDataListener<List<DailyEntity>>() {
             @Override
-            public void onDataComplete(final List<MeizhiEntity> ganks) {
-                getView().showGanksData(ganks);
+            public void onDataComplete(final List<DailyEntity> daily) {
+                getView().showDailyDatas(daily);
                 getView().hideProgress();
             }
 
@@ -52,18 +52,18 @@ public class HomePresenter extends MVPBasePresenter<HomeView> {
     }
 
     public void updateGanksData(int page) {
-        getView().showProgress();
-        getView().saveToCompositeSubscription(gankmodel.fetchGanks(new OnDataListener<List<MeizhiEntity>>() {
+        getView().showBackgroundProgress();
+        getView().saveToCompositeSubscription(gankmodel.fetchDaily(new OnDataListener<List<DailyEntity>>() {
             @Override
-            public void onDataComplete(List<MeizhiEntity> meizhiEntities) {
-                getView().hideProgress();
-                getView().addGankDatas(meizhiEntities);
+            public void onDataComplete(List<DailyEntity> dailyEntities) {
+                getView().hideBackGroundProgress();
+                getView().addDailyDatas(dailyEntities);
             }
 
             @Override
             public void onDataError(Throwable e) {
                 getView().showErrorMessage(e);
-                getView().hideProgress();
+                getView().hideBackGroundProgress();
             }
         }, page));
     }

@@ -1,5 +1,7 @@
 package com.crainax.mysterygank.bean;
 
+import java.util.Date;
+
 /**
  * Created by crainax on 2016/10/15.
  */
@@ -14,7 +16,7 @@ public class DailyEntity {
 
     private String _id;
     private String content;
-    private String publishedAt;
+    private Date publishedAt;
     private String title;
     private String imageUrl;
 
@@ -42,11 +44,11 @@ public class DailyEntity {
         this.content = content;
     }
 
-    public String getPublishedAt() {
+    public Date getPublishedAt() {
         return publishedAt;
     }
 
-    public void setPublishedAt(String publishedAt) {
+    public void setPublishedAt(Date publishedAt) {
         this.publishedAt = publishedAt;
     }
 

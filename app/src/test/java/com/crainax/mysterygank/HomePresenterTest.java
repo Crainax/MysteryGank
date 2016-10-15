@@ -91,7 +91,7 @@ public class HomePresenterTest {
         //3.隐藏进度条+显示数据.
         inOrder.verify(mHomeActivity).hideProgress();
         ArgumentCaptor<List> listCaptor = ArgumentCaptor.forClass(List.class);
-        verify(mHomeActivity).showGanksData(listCaptor.capture());
+        verify(mHomeActivity).showDailyDatas(listCaptor.capture());
 
         //4.验证View层的数据是否为相应的组数
         assertEquals(listCaptor.getValue().size(), GankRetrofit.NUMBER_PER_PAGE);
@@ -140,7 +140,7 @@ public class HomePresenterTest {
         verify(mGankModel, times(1)).fetchGanks(mCallbackCaptor.capture(), eq(PAGE));
         mCallbackCaptor.getValue().onDataComplete(MEIZHIS);
 
-        verify(mHomeActivity).showGanksData(mListCaptor.capture());
+        verify(mHomeActivity).showDailyDatas(mListCaptor.capture());
 
         //模拟下拉后获取数据
         homePresenter.updateGanksData(PAGE_OTHER);

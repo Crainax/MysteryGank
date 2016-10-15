@@ -1,4 +1,6 @@
-package com.crainax.mysterygank.bean;
+package com.crainax.mysterygank.bean.comparator;
+
+import com.crainax.mysterygank.bean.DailyEntity;
 
 import java.util.Comparator;
 
@@ -12,10 +14,10 @@ import java.util.Comparator;
  * @version 1.0 <br/>
  * @since 2016/5/8 <br/>
  */
-public class MeizhiSoringComparator implements Comparator<MeizhiEntity> {
+public class DailyComparator implements Comparator<DailyEntity> {
 
     @Override
-    public int compare(MeizhiEntity lhs, MeizhiEntity rhs) {
+    public int compare(DailyEntity lhs, DailyEntity rhs) {
         return -1 * lhs.getPublishedAt().compareTo(rhs.getPublishedAt());
     }
 }

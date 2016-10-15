@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.crainax.mysterygank.R;
-import com.crainax.mysterygank.bean.MeizhiEntity;
+import com.crainax.mysterygank.bean.DailyEntity;
 import com.crainax.mysterygank.presenter.HomePresenter;
 import com.crainax.mysterygank.ui.adapter.HomeAdapter;
 import com.crainax.mysterygank.ui.adapter.SpaceItemDecoration;
@@ -40,7 +40,7 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
     SwipeRefreshLayout mSrlHome;
 
     private HomePresenter mPresenter;
-    private int currentPage = 1;
+    private int mCurrentPage = 1;
     private HomeAdapter mHomeAdapter;
     private LinearLayoutManager mRvLayoutManager;
     private static int NUMBER_PRELOAD = 1;
@@ -78,7 +78,7 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (mRvLayoutManager.findLastVisibleItemPosition() >= mHomeAdapter.getItemCount() - NUMBER_PRELOAD && mHasLoad) {
-                    mPresenter.updateGanksData(++currentPage);
+                    mPresenter.updateGanksData(++mCurrentPage);
                 }
             }
         });
@@ -103,7 +103,7 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
     }
 
     @Override
-    public void showGanksData(List<MeizhiEntity> datas) {
+    public void showDailyDatas(List<DailyEntity> datas) {
         mHomeAdapter.setDatasAndNotify(datas);
     }
 
@@ -114,17 +114,27 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
     }
 
     @Override
-    public void addGankDatas(List<MeizhiEntity> datas) {
+    public void addDailyDatas(List<DailyEntity> datas) {
         mHomeAdapter.addDatasAndNotify(datas);
     }
 
     @Override
-    public void onRefresh() {
-        mPresenter.getGanksData(1);
+    public void showBackgroundProgress() {
+        mHasLoad = false;
     }
 
     @Override
-    public void onHomeItemClick(View view, MeizhiEntity meizhiEntity) {
+    public void hideBackGroundProgress() {
+        mHasLoad = true;
+    }
+
+    @Override
+    public void onRefresh() {
+        mPresenter.getGanksData(mCurrentPage = 1);
+    }
+
+    @Override
+    public void onHomeItemClick(View view, DailyEntity dailyEntity) {
 
     }
 

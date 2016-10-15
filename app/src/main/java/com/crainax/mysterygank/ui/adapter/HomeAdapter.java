@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.crainax.mysterygank.R;
-import com.crainax.mysterygank.bean.MeizhiEntity;
+import com.crainax.mysterygank.bean.DailyEntity;
 import com.crainax.mysterygank.util.DateUtils;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private OnHomeItemClickListener onHomeItemClickListener;
 
     public interface OnHomeItemClickListener {
-        void onHomeItemClick(View view, MeizhiEntity meizhiEntity);
+        void onHomeItemClick(View view, DailyEntity dailyEntity);
 
         void onAvatarClick(View view, String imageUrl);
     }
@@ -46,18 +46,18 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int VIEW_TYPE_FOOTER = 1;
 
-    private List<MeizhiEntity> datas;
+    private List<DailyEntity> datas;
 
-    public void setDatas(List<MeizhiEntity> datas) {
+    public void setDatas(List<DailyEntity> datas) {
         this.datas = datas;
     }
 
-    public void setDatasAndNotify(List<MeizhiEntity> datas) {
+    public void setDatasAndNotify(List<DailyEntity> datas) {
         setDatas(datas);
         notifyDataSetChanged();
     }
 
-    public void addDatasAndNotify(List<MeizhiEntity> datas) {
+    public void addDatasAndNotify(List<DailyEntity> datas) {
         this.datas.addAll(datas);
         notifyDataSetChanged();
     }
@@ -100,11 +100,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             final ViewHolder homeAdapterHolder = (ViewHolder) holder;
 
             //设置相应的数据(展开后的)
-            homeAdapterHolder.mTvTitle.setText(datas.get(position).getDesc());
+            homeAdapterHolder.mTvTitle.setText(datas.get(position).getTitle());
             homeAdapterHolder.mTvDate.setText(
                     DateUtils.formatDate(datas.get(position).getPublishedAt(), DateUtils.FORMAT_YMD));
             Glide.with(homeAdapterHolder.context)
-                    .load(datas.get(position).getUrl())
+                    .load(datas.get(position).getImageUrl())
                     .centerCrop()
                     .into(homeAdapterHolder.mIvAvatar);
             attachListener((HomeAdapter.ViewHolder) holder, datas.get(position));
@@ -114,12 +114,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    private void attachListener(ViewHolder holder, final MeizhiEntity meizhiEntity) {
+    private void attachListener(ViewHolder holder, final DailyEntity dailyEntity) {
         holder.mClickAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onHomeItemClickListener != null) {
-                    onHomeItemClickListener.onAvatarClick(v, meizhiEntity.getUrl());
+                    onHomeItemClickListener.onAvatarClick(v, dailyEntity.getImageUrl());
                 }
             }
         });
@@ -127,7 +127,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 if (onHomeItemClickListener != null){
-                    onHomeItemClickListener.onHomeItemClick(v, meizhiEntity);
+                    onHomeItemClickListener.onHomeItemClick(v, dailyEntity);
                 }
             }
         });
