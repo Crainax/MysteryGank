@@ -31,7 +31,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private OnHomeItemClickListener onHomeItemClickListener;
 
     public interface OnHomeItemClickListener {
-        void onHomeItemClick(View view, DailyEntity dailyEntity);
+        void onHomeItemClick(View view, DailyEntity dailyEntity, ImageView meizhi);
 
         void onAvatarClick(View view, String imageUrl);
     }
@@ -116,7 +116,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    private void attachListener(ViewHolder holder, final DailyEntity dailyEntity) {
+    private void attachListener(final ViewHolder holder, final DailyEntity dailyEntity) {
         holder.mClickAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +129,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 if (onHomeItemClickListener != null) {
-                    onHomeItemClickListener.onHomeItemClick(v, dailyEntity);
+                    onHomeItemClickListener.onHomeItemClick(v, dailyEntity,holder.mIvAvatar);
                 }
             }
         });

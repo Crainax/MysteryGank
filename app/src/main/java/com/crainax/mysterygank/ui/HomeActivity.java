@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.crainax.mysterygank.R;
@@ -109,7 +110,7 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
 
     @Override
     public void showErrorMessage(Throwable e) {
-        Toast.makeText(HomeActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+        Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         Logger.w("showErrorMessage: " + e);
     }
 
@@ -134,8 +135,8 @@ public class HomeActivity extends BaseActivity<HomeView, HomePresenter>
     }
 
     @Override
-    public void onHomeItemClick(View view, DailyEntity dailyEntity) {
-
+    public void onHomeItemClick(View view, DailyEntity dailyEntity, ImageView meizhi) {
+        GankActivity.start(this, dailyEntity, meizhi);
     }
 
     @Override
