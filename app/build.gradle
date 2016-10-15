@@ -46,4 +46,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.0.1'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
+    compile 'com.android.support:palette-v7:24.2.1'
 }

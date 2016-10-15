@@ -3,10 +3,12 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:colorControlHighlight">@color/accent_translucent</item> 
+        <item name="android:windowSharedElementsUseOverlay">false</item>
     </style>
 
     <style name="Title.Item.Home">
@@ -37,7 +39,7 @@
     <style name="Content.Item.Home">
         <item name="android:textColor">@color/colorContent</item>
     </style>
-
+a
     <style name="Badge">
         <item name="android:textColor">@color/contentBadgeTitle</item>
         <item name="android:textSize">10sp</item>

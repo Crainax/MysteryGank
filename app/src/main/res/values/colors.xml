@@ -11,4 +11,11 @@
     <color name="contentBadgeTitle">#a9a9a9</color>
     <color name="GrayDivider">#999999</color>
     <color name="bgHomeItemLeft">#594691</color>
+
+    app的
+    <color name="primary">#00BCD4</color>
+    <color name="primary_dark">#0097A7</color>
+    <color name="accent">#FFEB3B</color>
+    <color name="accent_translucent">#80FFEB3B</color>
+    <color name="accent_bright">#FFF493</color>
 </resources>
