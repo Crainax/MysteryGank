@@ -105,7 +105,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     DateUtils.formatDate(datas.get(position).getPublishedAt(), DateUtils.FORMAT_YMD));
             Glide.with(homeAdapterHolder.context)
                     .load(datas.get(position).getUrl())
-                    .placeholder(R.drawable.women_placeholder)
+                    .centerCrop()
                     .into(homeAdapterHolder.mIvAvatar);
             attachListener((HomeAdapter.ViewHolder) holder, datas.get(position));
 

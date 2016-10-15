@@ -7,7 +7,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.crainax.mysterygank.R;
@@ -17,6 +16,7 @@ import com.crainax.mysterygank.view.PictureView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
@@ -35,8 +35,10 @@ public class PictureActivity extends BaseActivity<PictureView, PicturePresenter>
     public static final String EXTRA_IMAGE_URL = "image_url";
     public static final String TRANSIT_PIC = "picture";
 
+
+    // TODO: 2016/10/15 ImageView改成PhotoView就行了
     @BindView(R.id.iv_photo)
-    ImageView mImageView;
+    PhotoView mImageView;
 
     private PhotoViewAttacher mPhotoViewAttacher;
     private String mImageUrl;
@@ -44,7 +46,6 @@ public class PictureActivity extends BaseActivity<PictureView, PicturePresenter>
     public static void start(Activity activity, String url, View transitionView) {
         Intent intent = new Intent(activity, PictureActivity.class);
         intent.putExtra(PictureActivity.EXTRA_IMAGE_URL, url);
-
         //Image Transition.
         ActivityOptionsCompat optionsCompat
                 = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -70,14 +71,18 @@ public class PictureActivity extends BaseActivity<PictureView, PicturePresenter>
         parseIntent();
         // init image viewÅ
         ViewCompat.setTransitionName(mImageView, TRANSIT_PIC);
+
         Glide.with(this).load(mImageUrl).into(mImageView);
         setupPhotoAttacher();
+
     }
 
     @Override
     protected PicturePresenter createPresenter() {
         return new PicturePresenter(this);
     }
+
+
 
     private void setupPhotoAttacher() {
         mPhotoViewAttacher = new PhotoViewAttacher(mImageView);
@@ -87,5 +92,6 @@ public class PictureActivity extends BaseActivity<PictureView, PicturePresenter>
                 onBackPressed();
             }
         });
+        mPhotoViewAttacher.update();
     }
 }
