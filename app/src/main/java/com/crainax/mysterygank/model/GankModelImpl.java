@@ -5,15 +5,12 @@ import com.crainax.mysterygank.api.GankAPI;
 import com.crainax.mysterygank.bean.DailyEntity;
 import com.crainax.mysterygank.bean.HttpMethod;
 import com.crainax.mysterygank.bean.MeizhiEntity;
-import com.crainax.mysterygank.bean.comparator.DailyComparator;
-import com.crainax.mysterygank.bean.comparator.MeizhiSoringComparator;
 import com.crainax.mysterygank.bean.OnDataListener;
 import com.crainax.mysterygank.bean.RelaxVideoEntity;
+import com.crainax.mysterygank.bean.comparator.DailyComparator;
+import com.crainax.mysterygank.bean.comparator.MeizhiSoringComparator;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -117,9 +114,39 @@ public class GankModelImpl implements GankModel {
         //获取标题与妹子的接口,并剥离其"error"外壳
         Observable<List<DailyEntity>> oDaily = gankAPI.getDailyEntity(page + "")
                 .map(new HttpMethod<List<DailyEntity>>());
+        Observable<List<MeizhiEntity>> oMeizhi = gankAPI.getMeizhi(page + "")
+                .map(new HttpMethod<List<MeizhiEntity>>());
+
 
         //将休息视频的描述用zip整合 到妹子中去
-        return oDaily
+        return Observable.zip(oDaily, oMeizhi, new Func2<List<DailyEntity>, List<MeizhiEntity>, List<DailyEntity>>() {
+            @Override
+            public List<DailyEntity> call(List<DailyEntity> dailyEntities, List<MeizhiEntity> meizhiEntities) {
+                for (MeizhiEntity meizhiEntity : meizhiEntities) {
+
+                    for (DailyEntity dailyEntity : dailyEntities) {
+
+                        // Daily数据里面的日期
+                        Calendar calendar1 = Calendar.getInstance();
+                        calendar1.setTime(dailyEntity.getPublishedAt());
+                        // Meizhi数据里面的日期
+                        Calendar calendar2 = Calendar.getInstance();
+                        calendar2.setTime(meizhiEntity.getPublishedAt());
+
+                        boolean bYear = calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR);
+                        boolean bMonth = calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH);
+                        boolean bDay = calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH);
+
+                        if (bYear && bMonth && bDay) {
+                            dailyEntity.setImageUrl(meizhiEntity.getUrl());
+                        }
+
+                    }
+
+                }
+                return dailyEntities;
+            }
+        })
                 //获取网络数据,我们在IO线程中.
                 .subscribeOn(isTesting ? Schedulers.immediate() : Schedulers.io())
                 //用于排序的Computation线程.
@@ -129,13 +156,6 @@ public class GankModelImpl implements GankModel {
                     public List<DailyEntity> call(List<DailyEntity> dailyEntities) {
                         //排序还有获取妹子的图片信息。
                         Collections.sort(dailyEntities, new DailyComparator());
-                        for (DailyEntity dailyEntity : dailyEntities) {
-                            Document document = Jsoup.parse(dailyEntity.getContent());
-                            Element imageElement = document.getElementsByTag("img").get(0);
-                            String imageUrl = imageElement.attr("src");
-                            System.out.println("ImageUrl:" + imageUrl);
-                            dailyEntity.setImageUrl(imageUrl);
-                        }
                         return dailyEntities;
                     }
                 })

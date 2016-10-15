@@ -2,6 +2,7 @@ package com.crainax.mysterygank.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +95,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
-
         if (holder instanceof ViewHolder) {
 
             final ViewHolder homeAdapterHolder = (ViewHolder) holder;
@@ -103,10 +103,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             homeAdapterHolder.mTvTitle.setText(datas.get(position).getTitle());
             homeAdapterHolder.mTvDate.setText(
                     DateUtils.formatDate(datas.get(position).getPublishedAt(), DateUtils.FORMAT_YMD));
-            Glide.with(homeAdapterHolder.context)
-                    .load(datas.get(position).getImageUrl())
-                    .centerCrop()
-                    .into(homeAdapterHolder.mIvAvatar);
+
+            if (!TextUtils.isEmpty(datas.get(position).getImageUrl()))
+                Glide.with(homeAdapterHolder.context)
+                        .load(datas.get(position).getImageUrl())
+                        .centerCrop()
+                        .into(homeAdapterHolder.mIvAvatar);
             attachListener((HomeAdapter.ViewHolder) holder, datas.get(position));
 
         } else if (holder instanceof FooterViewHolder) {
@@ -126,7 +128,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onHomeItemClickListener != null){
+                if (onHomeItemClickListener != null) {
                     onHomeItemClickListener.onHomeItemClick(v, dailyEntity);
                 }
             }
